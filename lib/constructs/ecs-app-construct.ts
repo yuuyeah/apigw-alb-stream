@@ -44,7 +44,9 @@ export class EcsAppConstruct extends Construct {
     });
 
     const container = taskDefinition.addContainer('app', {
-      image: ecs.ContainerImage.fromAsset(appPath),
+      image: ecs.ContainerImage.fromAsset(appPath, {
+        platform: cdk.aws_ecr_assets.Platform.LINUX_AMD64,
+      }),
       logging: ecs.LogDrivers.awsLogs({ streamPrefix: 'app' }),
       environment: {
         AWS_DEFAULT_REGION: cdk.Stack.of(this).region,
