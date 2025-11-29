@@ -1,4 +1,5 @@
 import asyncio
+import json
 from functools import partial
 
 import boto3
@@ -44,11 +45,17 @@ async def stream_response(req: StreamRequest):
                     if "contentBlockDelta" in event:
                         delta = event["contentBlockDelta"]["delta"]
                         if "text" in delta:
-                            yield delta["text"]
+                            chunk = json.dumps(
+                                {"data": delta["text"]}, ensure_ascii=False
+                            )
+                            yield f"{chunk}\n"
                             await asyncio.sleep(0)  # イベントループに制御を戻す
         except Exception as e:
-            yield f"Error: {str(e)}"
+            error_chunk = json.dumps({"data": f"Error: {str(e)}"}, ensure_ascii=False)
+            yield f"{error_chunk}\n"
 
     return StreamingResponse(
-        generate(), media_type="text/plain", headers={"X-Accel-Buffering": "no"}
+        generate(),
+        media_type="text/event-stream",
+        headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"},
     )
