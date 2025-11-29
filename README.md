@@ -4,7 +4,7 @@
 
 ## 目的
 
-このサンプルは、以下の2つの新機能を実際に動作させることで、その使い方と利点を示すことを目的としています：
+このサンプルは、以下の2つの新機能を実際に動作させることを目的としています。
 
 1. **API Gateway Private Integration with ALB** (2025年11月)
    - API GatewayからApplication Load Balancer (ALB)へのプライベート統合
@@ -18,21 +18,9 @@
 
 このサンプルでは、Amazon Bedrock (Claude Haiku)を使用したストリーミングチャットAPIを、完全プライベートなネットワーク構成で実装しています。
 
-## 🏗️ アーキテクチャ
+## アーキテクチャ
 
-```
-Internet
-    ↓
-API Gateway (Regional)
-    ↓
-VPC Link v2
-    ↓
-Private ALB (Private Subnet)
-    ↓
-ECS Fargate (Private Subnet)
-    ↓
-Amazon Bedrock (via VPC Endpoint)
-```
+![](./images/thumbnail.png)
 
 ### 主要コンポーネント
 
