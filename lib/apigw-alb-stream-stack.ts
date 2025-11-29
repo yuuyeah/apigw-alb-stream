@@ -84,7 +84,7 @@ export class ApigwAlbStreamStack extends cdk.Stack {
     });
 
     new cdk.CfnOutput(this, 'PrivateSubnetIds', {
-      value: vpc.privateSubnets.map(subnet => subnet.subnetId).join(','),
+      value: vpc.isolatedSubnets.map(subnet => subnet.subnetId).join(','),
       description: 'Private Subnet IDs for VPC Link',
       exportName: 'PrivateSubnetIds',
     });
