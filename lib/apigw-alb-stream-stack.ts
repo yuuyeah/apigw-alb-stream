@@ -68,6 +68,13 @@ export class ApigwAlbStreamStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'ALBDnsName', {
       value: ecsApp.alb.loadBalancerDnsName,
       description: 'Private ALB DNS Name',
+      exportName: 'ALBDnsName',
+    });
+
+    new cdk.CfnOutput(this, 'ALBArn', {
+      value: ecsApp.alb.loadBalancerArn,
+      description: 'Private ALB ARN',
+      exportName: 'ALBArn',
     });
 
     new cdk.CfnOutput(this, 'VpcLinkSecurityGroupId', {
