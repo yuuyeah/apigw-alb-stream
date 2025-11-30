@@ -42,7 +42,7 @@
   - リアルタイムで Bedrock Claude Haiku の応答をストリーミング
   - SSE (Server-Sent Events) 形式でデータを返却
 
-## 📋 前提条件
+## 前提条件
 
 ### 必要なツール
 
@@ -197,7 +197,7 @@ data: 手伝い
 - Amazon CloudWatch Logs
 
 
-## 🧹 クリーンアップ
+## クリーンアップ
 
 ### 1. API Gatewayリソースの削除
 
@@ -217,7 +217,7 @@ npx cdk destroy
 
 確認プロンプトで`y`を入力してください。
 
-## 📚 参考リンク
+## 参考リンク
 
 - [Build scalable REST APIs using Amazon API Gateway private integration with Application Load Balancer](https://aws.amazon.com/jp/blogs/compute/build-scalable-rest-apis-using-amazon-api-gateway-private-integration-with-application-load-balancer/)
 - [Building responsive APIs with Amazon API Gateway response streaming](https://aws.amazon.com/jp/blogs/compute/building-responsive-apis-with-amazon-api-gateway-response-streaming/)
