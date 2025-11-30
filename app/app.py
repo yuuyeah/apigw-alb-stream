@@ -45,14 +45,11 @@ async def stream_response(req: StreamRequest):
                     if "contentBlockDelta" in event:
                         delta = event["contentBlockDelta"]["delta"]
                         if "text" in delta:
-                            chunk = json.dumps(
-                                {"data": delta["text"]}, ensure_ascii=False
-                            )
-                            yield f"{chunk}\n"
+                            # SSE標準フォーマット: data: <content>\n\n
+                            yield f"data: {delta['text']}\n\n"
                             await asyncio.sleep(0)  # イベントループに制御を戻す
         except Exception as e:
-            error_chunk = json.dumps({"data": f"Error: {str(e)}"}, ensure_ascii=False)
-            yield f"{error_chunk}\n"
+            yield f"data: Error: {str(e)}\n\n"
 
     return StreamingResponse(
         generate(),
