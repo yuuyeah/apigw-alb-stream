@@ -22,9 +22,10 @@ VPC_LINK_OUTPUT=$(aws apigatewayv2 create-vpc-link \
   --output json)
 VPC_LINK_ID=$(echo "$VPC_LINK_OUTPUT" | jq -r '.VpcLinkId')
 
-echo "⏳ VPC Link待機中..."
+echo "⏳ VPC Link待機中 (2-3分かかります)..."
 while true; do
   VPC_LINK_STATUS=$(aws apigatewayv2 get-vpc-link --vpc-link-id "$VPC_LINK_ID" --query 'VpcLinkStatus' --output text)
+  echo "  Status: $VPC_LINK_STATUS"
   [ "$VPC_LINK_STATUS" == "AVAILABLE" ] && break
   [ "$VPC_LINK_STATUS" == "FAILED" ] && exit 1
   sleep 30
@@ -73,5 +74,12 @@ aws apigateway create-deployment \
   --rest-api-id "$REST_API_ID" \
   --stage-name "$STAGE_NAME" > /dev/null
 
+API_ENDPOINT="https://${REST_API_ID}.execute-api.${AWS_REGION:-us-east-1}.amazonaws.com/${STAGE_NAME}"
+
+echo ""
 echo "✅ Setup Complete!"
-echo "API Endpoint: https://${REST_API_ID}.execute-api.${AWS_REGION:-us-east-1}.amazonaws.com/${STAGE_NAME}"
+echo "API Endpoint: $API_ENDPOINT"
+echo ""
+echo "🧪 Test commands:"
+echo "  curl $API_ENDPOINT/health"
+echo "  curl -X POST $API_ENDPOINT/stream -H 'Content-Type: application/json' -d '{\"message\":\"こんにちは\"}' --no-buffer"
